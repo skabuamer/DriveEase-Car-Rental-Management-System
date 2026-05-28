@@ -150,7 +150,7 @@ Example:
 ```md
 ![Dashboard Screenshot](./screenshots/dashboard.png) -->
 
-````
+<!-- ```` -->
 
 ---
 
@@ -160,7 +160,7 @@ Example:
 
 ```bash
 git clone https://github.com/your-username/driveease.git
-````
+```
 
 ---
 
