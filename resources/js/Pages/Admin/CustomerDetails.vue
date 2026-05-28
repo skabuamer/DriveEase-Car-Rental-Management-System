@@ -63,80 +63,82 @@ const customer = computed(() => page.props.customer);
                     All rentals by this customer
                 </p>
             </div>
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-slate-50 border-b border-slate-100">
-                        <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                        >
-                            Rental ID
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                        >
-                            Car
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                        >
-                            Dates
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                        >
-                            Total Cost
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                        >
-                            Status
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    <tr
-                        class="hover:bg-slate-50 transition-colors"
-                        v-for="rental in customer.rentals"
-                        :key="rental.id"
-                    >
-                        <td
-                            class="px-6 py-4 text-sm font-medium text-slate-700"
-                        >
-                            #{{ rental.id }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-700">
-                            {{ rental.car.model }} - {{ rental.car.brand }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-500">
-                            {{ rental.start_date }} - {{ rental.end_date }}
-                        </td>
-                        <td
-                            class="px-6 py-4 text-sm font-semibold text-slate-900"
-                        >
-                            ${{ rental.total_cost }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <span
-                                :class="[
-                                    `inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg`,
-                                    rental.status === `completed`
-                                        ? `bg-green-50 text-green-700`
-                                        : rental.status === `ongoing`
-                                          ? `bg-blue-50 text-blue-700`
-                                          : `bg-red-50 text-red-700`,
-                                ]"
-                                >{{
-                                    rental.status === "completed"
-                                        ? "Completed"
-                                        : rental.status === "ongoing"
-                                          ? "Ongoing"
-                                          : "Cancelled"
-                                }}</span
+            <div class="overflow-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
                             >
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                Rental ID
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Car
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Dates
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Total Cost
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr
+                            class="hover:bg-slate-50 transition-colors"
+                            v-for="rental in customer.rentals"
+                            :key="rental.id"
+                        >
+                            <td
+                                class="px-6 py-4 text-sm font-medium text-slate-700"
+                            >
+                                #{{ rental.id }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-700">
+                                {{ rental.car.model }} - {{ rental.car.brand }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-500">
+                                {{ rental.start_date }} - {{ rental.end_date }}
+                            </td>
+                            <td
+                                class="px-6 py-4 text-sm font-semibold text-slate-900"
+                            >
+                                ${{ rental.total_cost }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span
+                                    :class="[
+                                        `inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg`,
+                                        rental.status === `completed`
+                                            ? `bg-green-50 text-green-700`
+                                            : rental.status === `ongoing`
+                                              ? `bg-blue-50 text-blue-700`
+                                              : `bg-red-50 text-red-700`,
+                                    ]"
+                                    >{{
+                                        rental.status === "completed"
+                                            ? "Completed"
+                                            : rental.status === "ongoing"
+                                              ? "Ongoing"
+                                              : "Cancelled"
+                                    }}</span
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="mt-6">

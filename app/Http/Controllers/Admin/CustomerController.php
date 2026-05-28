@@ -70,8 +70,16 @@ class CustomerController extends Controller
     {
         $customer = User::where('role', 'customer')->findOrFail($id);
 
+        if ($customer->rentals()->exists()) {
+            return redirect()->route('customers.index')->with([
+                'error' => 'You cannot delete a customer that has rented a car.',
+            ]);
+        }
+
         $customer->delete();
 
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with([
+            'success' => 'Customer deleted successfully.',
+        ]);
     }
 }

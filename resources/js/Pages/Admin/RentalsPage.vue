@@ -1,4 +1,14 @@
 <script setup>
+import AlertDialog from "@/Components/ui/alert-dialog/AlertDialog.vue";
+import AlertDialogAction from "@/Components/ui/alert-dialog/AlertDialogAction.vue";
+import AlertDialogCancel from "@/Components/ui/alert-dialog/AlertDialogCancel.vue";
+import AlertDialogContent from "@/Components/ui/alert-dialog/AlertDialogContent.vue";
+import AlertDialogDescription from "@/Components/ui/alert-dialog/AlertDialogDescription.vue";
+import AlertDialogFooter from "@/Components/ui/alert-dialog/AlertDialogFooter.vue";
+import AlertDialogHeader from "@/Components/ui/alert-dialog/AlertDialogHeader.vue";
+import AlertDialogTitle from "@/Components/ui/alert-dialog/AlertDialogTitle.vue";
+import AlertDialogTrigger from "@/Components/ui/alert-dialog/AlertDialogTrigger.vue";
+
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link, router, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
@@ -8,9 +18,7 @@ const page = usePage();
 const rentals = computed(() => page.props.rentals);
 
 const deleteRental = (id) => {
-    if (confirm("Are you sure?")) {
-        router.delete(route("rentals.destroy", id));
-    }
+    router.delete(route("rentals.destroy", id));
 };
 </script>
 
@@ -32,7 +40,7 @@ const deleteRental = (id) => {
         </div>
 
         <div
-            class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+            class="bg-white rounded-2xl border border-slate-200 overflow-auto shadow-sm"
         >
             <table class="w-full">
                 <thead>
@@ -144,22 +152,52 @@ const deleteRental = (id) => {
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                         /></svg
                                 ></Link>
-                                <button
-                                    @click="deleteRental(rental.id)"
-                                    class="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
-                                >
-                                    <svg
-                                        class="w-4 h-4"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                        />
-                                    </svg>
-                                </button>
+                                <AlertDialog>
+                                    <AlertDialogTrigger as-child>
+                                        <button
+                                            class="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                                        >
+                                            <svg
+                                                class="w-4 h-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle
+                                                >Delete
+                                                Rental?</AlertDialogTitle
+                                            >
+                                            <AlertDialogDescription>
+                                                This action cannot be undone.
+                                                This will permanently delete
+                                                this Rental Informations.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+
+                                        <AlertDialogFooter
+                                            class="dialog-footer"
+                                        >
+                                            <AlertDialogCancel
+                                                >Cancel</AlertDialogCancel
+                                            >
+
+                                            <AlertDialogAction
+                                                @click="deleteRental(rental.id)"
+                                            >
+                                                Delete
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
                         </td>
                     </tr>

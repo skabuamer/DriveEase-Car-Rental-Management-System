@@ -1,63 +1,313 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# DriveEase — Car Rental Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack Car Rental Management System built with Laravel, Inertia.js, Vue.js, Tailwind CSS, and MySQL.
 
-## Project Presentation Video
+DriveEase allows users to browse available cars, book vehicles for specific rental periods, and manage rental history through a responsive frontend interface. The system also includes a powerful admin dashboard for managing cars, rentals, customers, and overall rental operations.
 
-https://drive.google.com/file/d/1LSJp3maJ1qNvqPuvQMDEhEGMAT3_Lbux/view?usp=sharing
+This project focuses on real-world business workflow implementation including booking management, rental availability validation, role-based authentication, and customer rental tracking.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔗 Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+DriveEase is designed to simulate a real-world car rental business workflow with separate admin and customer interfaces.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The application includes:
 
-## Learning Laravel
+- Car listing and booking system
+- Rental management workflow
+- Role-based dashboard access
+- Customer management
+- Booking availability validation
+- Email notification system
+- Responsive frontend and admin dashboard
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# ✨ Key Features
 
-## Laravel Sponsors
+## 🚗 Car Management System
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Add, edit, and delete cars
+- Upload and manage car images
+- Car availability status management
+- Categorize cars by type
+- Manage daily rental pricing
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📅 Rental Booking System
 
-## Contributing
+- Book cars for specific dates
+- Rental date selection
+- Automatic total cost calculation
+- Booking availability validation
+- Prevent overlapping bookings
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 👥 Customer Management
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Customer authentication system
+- Customer rental history
+- Manage customer information
+- Booking cancellation system
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔐 Role-Based Authentication
 
-## License
+- Admin and customer roles
+- Protected admin dashboard
+- Middleware-based route protection
+- Secure authentication system
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📊 Admin Dashboard
+
+- Total cars overview
+- Available car statistics
+- Total rentals overview
+- Rental earnings statistics
+- Manage rentals and customers
+
+---
+
+## 📧 Email Notification System
+
+- Rental confirmation email to customers
+- Admin notification email for new rentals
+- Dynamic booking detail emails
+
+---
+
+## 🎨 Modern Responsive UI
+
+- Responsive frontend pages
+- Mobile-friendly dashboard
+- Clean booking interface
+- Modern admin panel layout
+- Tailwind CSS based design system
+
+---
+
+# 🛠️ Tech Stack
+
+## Backend
+
+- Laravel
+
+## Frontend
+
+- Inertia.js
+- Vue.js
+- Tailwind CSS
+
+## Database
+
+- MySQL
+
+## Additional Features
+
+- Laravel Mail System
+- Middleware Authentication
+- File/Image Upload System
+
+---
+
+# 🧠 Technical Highlights
+
+- Role-based authentication architecture
+- Booking availability validation logic
+- Relational database design
+- Admin/customer workflow separation
+- CRUD-based management system
+- Date overlap validation system
+- Responsive dashboard implementation
+- File upload and image handling
+- Email notification workflow
+- Organized MVC architecture
+
+---
+
+<!-- # 📸 Project Screenshots -->
+
+<!-- > Add screenshots or GIF previews for better presentation. -->
+
+<!-- Recommended screenshots:
+
+- Homepage
+- Car Listing Page
+- Car Details Page
+- Booking System
+- Admin Dashboard
+- Rental Management
+- Customer Dashboard
+
+Example:
+
+```md
+![Dashboard Screenshot](./screenshots/dashboard.png) -->
+
+````
+
+---
+
+# 🚀 Installation & Setup
+
+## Clone Repository
+
+```bash
+git clone https://github.com/your-username/driveease.git
+````
+
+---
+
+## Navigate to Project Directory
+
+```bash
+cd driveease
+```
+
+---
+
+## Install Dependencies
+
+```bash
+composer install
+```
+
+---
+
+## Create Environment File
+
+```bash
+cp .env.example .env
+```
+
+---
+
+## Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+---
+
+## Configure Database
+
+Update your `.env` file:
+
+```env
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
+```
+
+---
+
+## Configure Mail Settings
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=
+MAIL_FROM_ADDRESS=
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+---
+
+## Run Migrations
+
+```bash
+php artisan migrate
+```
+
+---
+
+## Create Storage Link
+
+```bash
+php artisan storage:link
+```
+
+---
+
+## Start Development Server
+
+```bash
+php artisan serve
+```
+
+---
+
+# 📂 Project Structure
+
+```bash
+app/
+resources/
+routes/
+database/
+public/
+storage/
+```
+
+---
+
+# 🔑 Core Functionalities
+
+## Admin Features
+
+- Manage Cars
+- Manage Rentals
+- Manage Customers
+- Dashboard Analytics
+
+---
+
+## Customer Features
+
+- Browse Cars
+- Filter Available Cars
+- Book Cars
+- View Rental History
+- Cancel Upcoming Rentals
+
+---
+
+# 📈 Future Improvements
+
+- Online payment gateway integration
+- Advanced booking calendar
+- Car reviews & ratings
+- Real-time availability system
+- Multi-image car gallery
+- Advanced analytics dashboard
+- AI-powered rental recommendations
+
+---
+
+# 👨‍💻 Developer
+
+## Abu Amer
+
+Frontend-focused Full Stack Developer with experience in:
+
+- Laravel
+- Vue.js
+- React.js
+- Next.js
+- Tailwind CSS
+- Modern UI/UX Development
+
+---
+
+# 📄 License
+
+This project is built for learning and portfolio purposes.

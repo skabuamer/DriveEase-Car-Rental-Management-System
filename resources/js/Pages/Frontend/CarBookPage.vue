@@ -39,24 +39,24 @@ const minEndDate = computed(() => {
 });
 
 const submit = () => {
-    if (!form.start_date || !form.end_date) {
-        alert("Please select dates");
-        return;
-    }
+    // if (!form.start_date || !form.end_date) {
+    //     alert("Please select dates");
+    //     return;
+    // }
 
-    if (form.end_date <= form.start_date) {
-        alert("End date must be after start date");
-        return;
-    }
+    // if (form.end_date <= form.start_date) {
+    //     alert("End date must be after start date");
+    //     return;
+    // }
 
     form.post("/rentals", {
         onSuccess: () => {
-            if (page.props.flash.success) {
-                alert("Booking successful!");
-            }
-            if (page.props.flash.error) {
-                alert(page.props.flash.error);
-            }
+            // if (page.props.flash.success) {
+            //     alert("Booking successful!");
+            // }
+            // if (page.props.flash.error) {
+            //     alert(page.props.flash.error);
+            // }
         },
     });
 };
@@ -107,7 +107,7 @@ const submit = () => {
 
                 <!-- Selected Car Summary -->
                 <div
-                    class="bg-white rounded-2xl border border-slate-200 p-5 mb-8 flex items-center gap-5"
+                    class="bg-white rounded-2xl border border-slate-200 p-5 mb-8 flex flex-wrap items-center gap-5"
                 >
                     <div
                         class="w-24 h-20 bg-linear-to-br from-slate-100 to-slate-50 rounded-xl flex items-center justify-center shrink-0"
@@ -151,6 +151,9 @@ const submit = () => {
                                     :min="minStartDate"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
                                 />
+                                <p class="text-xs text-red-500 mt-2">
+                                    {{ form.errors.start_date }}
+                                </p>
                             </div>
                             <div>
                                 <label
@@ -163,6 +166,9 @@ const submit = () => {
                                     :min="minEndDate"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
                                 />
+                                <p class="text-xs text-red-500 mt-2">
+                                    {{ form.errors.end_date }}
+                                </p>
                             </div>
                         </div>
 

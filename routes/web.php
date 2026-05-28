@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', function () {
+    return Inertia::render('Frontend/AboutPage');
+})->name('about');
+Route::get('/contact', function () {
+    return Inertia::render('Frontend/ContactPage');
+})->name('contact');
 Route::get('/cars', [FrontendCarController::class, 'index'])->name('cars');
 Route::get('/cars/{id}', [FrontendCarController::class, 'show'])->name('cars.show');
 
@@ -46,6 +52,7 @@ Route::middleware(['auth', 'admin', 'verified'])->prefix('admin')->group(
 Route::middleware('auth')->group(function () {
     Route::post('/rentals', [FrontendRentalController::class, 'store'])->name('rentals.store');
     Route::get('/my-bookings', [FrontendRentalController::class, 'index'])->name('bookings.index');
+    Route::get('/my-bookings/{id}', [FrontendRentalController::class, 'show'])->name('bookings.show');
     Route::get('/cars/{id}/book', [FrontendCarController::class, 'book'])->name('cars.book');
     Route::post('/rentals/{rental}/cancel', [FrontendRentalController::class, 'cancel'])->name('bookings.cancel');
 

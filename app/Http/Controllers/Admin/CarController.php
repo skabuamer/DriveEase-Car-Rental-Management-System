@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CarController extends Controller
@@ -55,6 +56,7 @@ class CarController extends Controller
             'car_type' => $request->input('car_type'),
             'daily_rent_price' => $request->input('daily_rent_price'),
             'availablity' => $request->input('availablity'),
+            'image' => 'placeholder.png',
         ];
 
         if ($request->hasFile('image')) {
@@ -115,6 +117,12 @@ class CarController extends Controller
         $car->availablity = $request->input('availablity');
 
         if ($request->hasFile('image')) {
+            // 1. Delete the old image if it exists on the public disk
+            if ($car->image && Storage::disk('public')->exists($car->image)) {
+                Storage::disk('public')->delete($car->image);
+            }
+
+            // 2. Store the new image and update the model path attribute
             $car->image = $request->file('image')->store('uploads', 'public');
         }
 
@@ -126,12 +134,30 @@ class CarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         $car = Car::findOrFail($id);
 
+        if ($car->rentals()->exists()) {
+            return redirect()->route('cars.index')->with([
+                'error' => 'You cannot delete a car that is currently rented.',
+            ]);
+        }
+
+        // if ($car->image && file_exists($car->image)) {
+        //     unlink($car->image);
+        // }
+
+        $relativePath = str_replace('storage/', '', $car->image);
+
+        if ($car->image && Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
+        }
+
         $car->delete();
 
-        return redirect()->route('cars.index');
+        return redirect()->route('cars.index')->with([
+            'success' => 'Car deleted successfully.',
+        ]);
     }
 }

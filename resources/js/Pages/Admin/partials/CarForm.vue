@@ -14,8 +14,8 @@ const form = useForm({
     year: props.car?.year || "",
     car_type: props.car?.car_type || "",
     daily_rent_price: props.car?.daily_rent_price || "",
-    image: props.car?.image || "",
-    availablity: props.car?.availablity || false,
+    image: props.car?.image || "placeholder.png",
+    availablity: props.car?.availablity || true,
 });
 
 const preview = ref(props.car?.image ? `/storage/${props.car.image}` : null);
@@ -125,6 +125,7 @@ const handleSubmit = () => {
                                 v-model="form.year"
                                 type="number"
                                 placeholder="e.g. 2023"
+                                min="1900"
                                 class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                             <div
@@ -244,9 +245,19 @@ const handleSubmit = () => {
                     >
                         <button
                             type="submit"
+                            :disabled="form.processing"
                             class="px-6 py-3 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors shadow-md shadow-primary-500/20"
+                            :class="['disabled:opacity-50']"
                         >
-                            {{ props.car ? "Update Car" : "Add Car" }}
+                            {{
+                                props.car
+                                    ? form.processing
+                                        ? "Updating..."
+                                        : "Update Car"
+                                    : form.processing
+                                      ? "Adding..."
+                                      : "Add Car"
+                            }}
                         </button>
                         <Link
                             :href="route('cars.index')"

@@ -1,11 +1,12 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { Head, usePage } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
 
 const page = usePage();
 
 const data = page.props;
-console.log(page.props);
+const rentals = computed(() => page.props.rentals);
 </script>
 
 <template>
@@ -108,7 +109,7 @@ console.log(page.props);
                     </div>
                 </div>
                 <p class="text-3xl font-extrabold text-slate-900">
-                    {{ data.rentals }}
+                    {{ rentals.length }}
                 </p>
                 <p class="text-sm text-slate-500 mt-1">Total Rentals</p>
             </div>
@@ -138,6 +139,122 @@ console.log(page.props);
                     ${{ data.earnings }}
                 </p>
                 <p class="text-sm text-slate-500 mt-1">Total Earnings</p>
+            </div>
+        </div>
+
+        <!-- Recent Rentals -->
+        <div
+            class="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+        >
+            <div
+                class="px-6 py-5 border-b border-slate-100 flex items-center justify-between"
+            >
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">
+                        Recent Rentals
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        Latest rental activity
+                    </p>
+                </div>
+                <Link
+                    :href="route('rentals.index')"
+                    class="text-sm text-primary-600 font-medium hover:text-primary-700 transition-colors"
+                    >View All →</Link
+                >
+            </div>
+            <div class="overflow-auto">
+                <table class="w-full min-w-max">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                ID
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Customer
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Car
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Dates
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Total
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                            >
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr
+                            class="hover:bg-slate-50 transition-colors"
+                            v-for="(rental, index) in rentals"
+                            :key="rental.id"
+                        >
+                            <td
+                                class="px-6 py-4 text-sm font-medium text-slate-700"
+                            >
+                                # {{ index + 1 }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0"
+                                    >
+                                        {{ rental.user.name.charAt(0) }}
+                                    </div>
+                                    <span class="text-sm text-slate-700">{{
+                                        rental.user.name
+                                    }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-700">
+                                {{ rental.car.name }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-500">
+                                {{ rental.start_date }} - {{ rental.end_date }}
+                            </td>
+                            <td
+                                class="px-6 py-4 text-sm font-semibold text-slate-900"
+                            >
+                                {{ rental.total_cost }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span
+                                    :class="[
+                                        `inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg`,
+                                        rental.status === `completed`
+                                            ? `bg-green-50 text-green-700`
+                                            : rental.status === `ongoing`
+                                              ? `bg-blue-50 text-blue-700`
+                                              : `bg-red-50 text-red-700`,
+                                    ]"
+                                    >{{
+                                        rental.status === "completed"
+                                            ? "Completed"
+                                            : rental.status === "ongoing"
+                                              ? "Ongoing"
+                                              : "Cancelled"
+                                    }}</span
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </AdminLayout>

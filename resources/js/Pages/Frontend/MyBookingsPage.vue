@@ -1,21 +1,32 @@
 <script setup>
+import AlertDialog from "@/Components/ui/alert-dialog/AlertDialog.vue";
+import AlertDialogAction from "@/Components/ui/alert-dialog/AlertDialogAction.vue";
+import AlertDialogCancel from "@/Components/ui/alert-dialog/AlertDialogCancel.vue";
+import AlertDialogContent from "@/Components/ui/alert-dialog/AlertDialogContent.vue";
+import AlertDialogDescription from "@/Components/ui/alert-dialog/AlertDialogDescription.vue";
+import AlertDialogFooter from "@/Components/ui/alert-dialog/AlertDialogFooter.vue";
+import AlertDialogHeader from "@/Components/ui/alert-dialog/AlertDialogHeader.vue";
+import AlertDialogTitle from "@/Components/ui/alert-dialog/AlertDialogTitle.vue";
+import AlertDialogTrigger from "@/Components/ui/alert-dialog/AlertDialogTrigger.vue";
+
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Link, router, usePage } from "@inertiajs/vue3";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
 
 const cancelBooking = (id) => {
-    if (confirm("Are you sure you want to cancel this booking?")) {
-        router.post(`/rentals/${id}/cancel`);
-    }
+    router.post(`/rentals/${id}/cancel`);
 };
 </script>
 
 <template>
+    <Head title="My Bookings" />
     <GuestLayout>
         <section class="py-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8">
+                <div
+                    class="flex flex-wrap gap-y-5 items-center justify-between mb-8"
+                >
                     <h1 class="text-3xl font-extrabold text-slate-900">
                         My Bookings
                     </h1>
@@ -38,9 +49,9 @@ const cancelBooking = (id) => {
 
                 <!-- Bookings Table -->
                 <div
-                    class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+                    class="bg-white rounded-2xl border border-slate-200 overflow-auto shadow-sm"
                 >
-                    <table class="w-full">
+                    <table class="w-full min-w-max">
                         <thead>
                             <tr class="bg-slate-50 border-b border-slate-200">
                                 <th
@@ -104,7 +115,17 @@ const cancelBooking = (id) => {
                                             <p
                                                 class="text-sm font-semibold text-slate-900"
                                             >
-                                                {{ booking.car.name }}
+                                                <Link
+                                                    :href="
+                                                        route(
+                                                            'bookings.show',
+                                                            booking.id,
+                                                        )
+                                                    "
+                                                    class="text-primary-600 hover:text-primary-700"
+                                                >
+                                                    {{ booking.car.name }}
+                                                </Link>
                                             </p>
                                             <p class="text-xs text-slate-500">
                                                 {{ booking.car.brand }}
@@ -158,25 +179,63 @@ const cancelBooking = (id) => {
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <!-- <Link
+                                        <Link
                                             :href="
                                                 route(
-                                                    'booking.show',
+                                                    'bookings.show',
                                                     booking.id,
                                                 )
                                             "
                                             class="text-primary-600 hover:text-primary-700 text-sm font-medium"
                                             >View</Link
-                                        > -->
-                                        <!-- <span class="text-slate-300">|</span> -->
-                                        <button
-                                            @click="cancelBooking(booking.id)"
-                                            v-if="booking.status === 'ongoing'"
-                                            type="submit"
-                                            class="text-red-500 hover:text-red-600 text-sm font-medium"
                                         >
-                                            Cancel
-                                        </button>
+                                        <span class="text-slate-300">|</span>
+
+                                        <AlertDialog>
+                                            <AlertDialogTrigger as-child>
+                                                <button
+                                                    v-if="
+                                                        booking.status ===
+                                                        'ongoing'
+                                                    "
+                                                    class="text-red-500 hover:text-red-600 text-sm font-medium"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle
+                                                        >Cancel
+                                                        Booking?</AlertDialogTitle
+                                                    >
+                                                    <AlertDialogDescription>
+                                                        This action cannot be
+                                                        undone. This will
+                                                        permanently cancel the
+                                                        booking.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+
+                                                <AlertDialogFooter
+                                                    class="dialog-footer"
+                                                >
+                                                    <AlertDialogCancel
+                                                        >Canel</AlertDialogCancel
+                                                    >
+
+                                                    <AlertDialogAction
+                                                        @click="
+                                                            cancelBooking(
+                                                                booking.id,
+                                                            )
+                                                        "
+                                                    >
+                                                        Confirm
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </div>
                                 </td>
                             </tr>

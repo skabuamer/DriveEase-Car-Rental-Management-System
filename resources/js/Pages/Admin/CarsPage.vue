@@ -1,6 +1,15 @@
 <script setup>
+import AlertDialog from "@/Components/ui/alert-dialog/AlertDialog.vue";
+import AlertDialogAction from "@/Components/ui/alert-dialog/AlertDialogAction.vue";
+import AlertDialogCancel from "@/Components/ui/alert-dialog/AlertDialogCancel.vue";
+import AlertDialogContent from "@/Components/ui/alert-dialog/AlertDialogContent.vue";
+import AlertDialogDescription from "@/Components/ui/alert-dialog/AlertDialogDescription.vue";
+import AlertDialogFooter from "@/Components/ui/alert-dialog/AlertDialogFooter.vue";
+import AlertDialogHeader from "@/Components/ui/alert-dialog/AlertDialogHeader.vue";
+import AlertDialogTitle from "@/Components/ui/alert-dialog/AlertDialogTitle.vue";
+import AlertDialogTrigger from "@/Components/ui/alert-dialog/AlertDialogTrigger.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 
 defineProps({
     cars: Array,
@@ -8,28 +17,9 @@ defineProps({
 </script>
 
 <template>
+    <Head title="Manage Cars" />
+
     <AdminLayout>
-        <div class="p-6 hidden">
-            <h1 class="text-xl font-bold mb-4">Cars</h1>
-
-            <table class="w-full border">
-                <thead>
-                    <tr>
-                        <th class="border p-2">ID</th>
-                        <th class="border p-2">Name</th>
-                        <th class="border p-2">Price</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr v-for="car in cars" :key="car.id">
-                        <td class="border p-2">{{ car.id }}</td>
-                        <td class="border p-2">{{ car.name }}</td>
-                        <td class="border p-2">{{ car.price }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
         <template #header-title>
             <h1 class="text-lg font-semibold text-slate-800">Manage Cars</h1>
             <p class="text-sm text-slate-400">
@@ -60,9 +50,9 @@ defineProps({
         </div>
 
         <div
-            class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+            class="bg-white rounded-2xl border border-slate-200 overflow-auto shadow-sm"
         >
-            <table class="w-full">
+            <table class="w-full min-w-max">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-100">
                         <th
@@ -194,23 +184,58 @@ defineProps({
                                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                         /></svg
                                 ></Link>
-                                <Link
-                                    :href="route('cars.destroy', car.id)"
-                                    method="delete"
-                                    class="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
-                                >
-                                    <svg
-                                        class="w-4 h-4"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                        />
-                                    </svg>
-                                </Link>
+                                <AlertDialog>
+                                    <AlertDialogTrigger as-child>
+                                        <button
+                                            class="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                                        >
+                                            <svg
+                                                class="w-4 h-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle
+                                                >Delete Car?</AlertDialogTitle
+                                            >
+                                            <AlertDialogDescription>
+                                                This action cannot be undone.
+                                                This will permanently delete
+                                                this car.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+
+                                        <AlertDialogFooter
+                                            class="dialog-footer"
+                                        >
+                                            <AlertDialogCancel
+                                                >Cancel</AlertDialogCancel
+                                            >
+
+                                            <AlertDialogAction
+                                                @click="
+                                                    router.delete(
+                                                        route(
+                                                            'cars.destroy',
+                                                            car.id,
+                                                        ),
+                                                    )
+                                                "
+                                            >
+                                                Delete
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
                         </td>
                     </tr>

@@ -54,10 +54,9 @@ class RentalController extends Controller
         )->exists();
 
         if ($alreadyBooked) {
-            return back()->with(
-                'error',
-                'Car already booked for selected dates.'
-            );
+            return back()->with([
+                'error' => 'Car already booked for selected dates.'
+            ]);
         }
 
         $booking = Rental::create([
@@ -77,7 +76,17 @@ class RentalController extends Controller
         Mail::to($admin->email)
             ->send(new AdminBookingNotification($booking));
 
+        session()->flash('success', 'Booking created.');
         return redirect()->route('bookings.index');
+    }
+
+    function show(Request $request, $id)
+    {
+        $rental = Rental::where('user_id', auth()->id())->with('car')->findOrFail($id);
+
+        return Inertia::render('Frontend/BookingDetailPage', [
+            'rental' => $rental,
+        ]);
     }
 
     function cancel(Rental $rental)
@@ -95,6 +104,6 @@ class RentalController extends Controller
             'status' => 'cancelled'
         ]);
 
-        return back()->with('success', 'Booking canceled.');
+        return back()->with(['success' => 'Booking canceled.']);
     }
 }

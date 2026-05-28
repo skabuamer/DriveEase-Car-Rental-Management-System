@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $cars = Car::count();
         $availableCars = Car::where('availablity', true)->count();
         $customers = User::where('role', 'customer')->count();
-        $rentals = Rental::count();
+        $rentals = Rental::with('car')->with('user')->latest()->get();
         $earnings = Rental::sum('total_cost');
 
         return Inertia::render('Dashboard', [

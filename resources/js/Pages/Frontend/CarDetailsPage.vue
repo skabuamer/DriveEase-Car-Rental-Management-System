@@ -1,6 +1,6 @@
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
 
@@ -8,6 +8,7 @@ const car = page.props.car;
 </script>
 
 <template>
+    <Head :title="car.name" />
     <GuestLayout>
         <section class="py-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,10 +16,10 @@ const car = page.props.car;
                 <nav
                     class="flex items-center gap-2 text-sm text-slate-500 mb-8"
                 >
-                    <router-link
-                        to="/"
+                    <Link
+                        href="/"
                         class="hover:text-primary-600 transition-colors"
-                        >Home</router-link
+                        >Home</Link
                     >
                     <svg
                         class="w-4 h-4"
@@ -29,10 +30,10 @@ const car = page.props.car;
                     >
                         <path d="M9 5l7 7-7 7" />
                     </svg>
-                    <router-link
-                        to="/cars"
+                    <Link
+                        :href="route('cars')"
                         class="hover:text-primary-600 transition-colors"
-                        >Cars</router-link
+                        >Cars</Link
                     >
                     <svg
                         class="w-4 h-4"
@@ -43,7 +44,9 @@ const car = page.props.car;
                     >
                         <path d="M9 5l7 7-7 7" />
                     </svg>
-                    <span class="text-slate-700 font-medium">Toyota Camry</span>
+                    <span class="text-slate-700 font-medium">{{
+                        car.name
+                    }}</span>
                 </nav>
 
                 <div class="grid lg:grid-cols-2 gap-10">

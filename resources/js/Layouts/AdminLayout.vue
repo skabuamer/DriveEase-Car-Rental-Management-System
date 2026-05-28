@@ -1,5 +1,7 @@
-<script setup lang="ts">
-import { Link } from "@inertiajs/vue3";
+<script setup>
+import { Link, usePage } from "@inertiajs/vue3";
+import { ref, watch } from "vue";
+import { toast, Toaster } from "vue-sonner";
 
 const baseClasses =
     "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200";
@@ -8,16 +10,41 @@ const activeClasses = "bg-primary-600/20 text-primary-400";
 
 const inactiveClasses =
     "text-slate-300 hover:bg-surface-dark-2 hover:text-white";
+
+const page = usePage();
+
+// Watch for changes in Inertia's flash session data
+watch(
+    () => page.props.flash,
+    (flash) => {
+        if (flash && flash.success) {
+            toast.success(flash.success);
+        }
+        if (flash && flash.error) {
+            toast.error(flash.error);
+        }
+    },
+    { deep: true, immediate: true },
+);
+
+const isSidebarOpen = ref(false);
 </script>
 
 <template>
     <div class="flex min-h-screen bg-slate-50">
-        <!-- Sidebar -->
+        <div
+            v-if="isSidebarOpen"
+            @click="isSidebarOpen = false"
+            class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 lg:hidden"
+        ></div>
+
         <aside
-            class="w-64 bg-surface-dark text-white flex flex-col fixed inset-y-0 left-0 z-40"
+            class="w-64 bg-surface-dark text-white flex flex-col fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0"
+            :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
-            <!-- Logo -->
-            <div class="p-5 border-b border-slate-700/50">
+            <div
+                class="p-5 border-b border-slate-700/50 flex items-center justify-between"
+            >
                 <Link to="/admin" class="flex items-center gap-2.5">
                     <div
                         class="w-9 h-9 bg-linear-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center"
@@ -45,10 +72,28 @@ const inactiveClasses =
                         >
                     </div>
                 </Link>
+
+                <button
+                    @click="isSidebarOpen = false"
+                    class="p-1 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white lg:hidden"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </button>
             </div>
 
-            <!-- Navigation -->
-            <nav class="flex-1 p-4 space-y-1">
+            <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
                 <p
                     class="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500"
                 >
@@ -155,7 +200,6 @@ const inactiveClasses =
                 </Link>
             </nav>
 
-            <!-- Bottom -->
             <div class="p-4 border-t border-slate-700/50 space-y-1">
                 <Link
                     :href="`/`"
@@ -194,32 +238,58 @@ const inactiveClasses =
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <div class="flex-1 ml-64">
-            <!-- Top Bar -->
+        <div class="flex-1 min-w-0 transition-all duration-300 lg:ml-64">
             <header
-                class="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-8 py-4"
+                class="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-4 sm:px-6 lg:px-8 py-4"
             >
-                <div class="flex items-center justify-between">
-                    <div>
-                        <slot name="header-title">
-                            <h1 class="text-lg font-semibold text-slate-800">
-                                Dashboard
-                            </h1>
-                        </slot>
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <button
+                            @click="isSidebarOpen = true"
+                            class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-600 focus:outline-hidden lg:hidden"
+                        >
+                            <svg
+                                class="w-6 h-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </button>
+
+                        <div class="truncate">
+                            <slot name="header-title">
+                                <h1
+                                    class="text-base sm:text-lg font-semibold text-slate-800 truncate"
+                                >
+                                    Dashboard
+                                </h1>
+                            </slot>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-3 pl-3">
+
+                    <div class="flex items-center gap-3 shrink-0">
+                        <div class="flex items-center gap-2 sm:gap-3 pl-3">
                             <div
-                                class="w-8 h-8 rounded-full bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-bold"
+                                class="w-8 h-8 rounded-full bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-bold shrink-0"
                             >
                                 {{ $page.props.auth.user.name.charAt(0) }}
                             </div>
-                            <div class="hidden sm:block">
-                                <p class="text-sm font-medium text-slate-700">
+                            <div class="hidden sm:block text-left">
+                                <p
+                                    class="text-sm font-medium text-slate-700 leading-tight"
+                                >
                                     {{ $page.props.auth.user.name }}
                                 </p>
-                                <p class="text-xs text-slate-400">
+                                <p
+                                    class="text-xs text-slate-400 max-w-[150px] truncate"
+                                >
                                     {{ $page.props.auth.user.email }}
                                 </p>
                             </div>
@@ -228,9 +298,9 @@ const inactiveClasses =
                 </div>
             </header>
 
-            <!-- Content -->
-            <div class="p-8">
+            <div class="p-4 sm:p-6 lg:p-8">
                 <slot />
+                <Toaster richColors position="top-center" closeButton />
             </div>
         </div>
     </div>
